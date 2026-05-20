@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이진미 — Film & Media</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #faf7f2;
+    --warm-white: #fff9f4;
+    --ink: #1a1612;
+    --muted: #7a6f65;
+    --accent: #c8553d;
+    --accent2: #e8a87c;
+    --film: #2d3a2e;
+    --gold: #d4a847;
+    --border: rgba(26,22,18,0.1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 3rem;
+    background: rgba(250,247,242,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 5rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Film-strip decorative element */
+  .film-strip {
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%) rotate(8deg);
+    width: 260px;
+    height: 680px;
+    background: var(--film);
+    border-radius: 4px;
+    opacity: 0.06;
+  }
+
+  .film-strip::before,
+  .film-strip::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 24px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 18px,
+      var(--cream) 18px,
+      var(--cream) 28px
+    );
+  }
+  .film-strip::before { left: 8px; }
+  .film-strip::after { right: 8px; }
+
+  .hero-text { z-index: 1; }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.8rem;
+    font-weight: 500;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.2rem, 6vw, 5.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.3rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-name-ko {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    color: var(--muted);
+    margin-bottom: 2rem;
+    letter-spacing: 0.06em;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 420px;
+    line-height: 1.75;
+    margin-bottom: 3rem;
+  }
+
+  .cta-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    padding: 0.9rem 2.2rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: #a8432d; transform: translateY(-2px); }
+
+  .btn-outline {
+    padding: 0.9rem 2.2rem;
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--border);
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--ink); }
+
+  /* Hero visual panel */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+  }
+
+  .hero-card {
+    position: relative;
+    width: 340px;
+    height: 440px;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(26,22,18,0.12), 0 8px 20px rgba(26,22,18,0.06);
+  }
+
+  .hero-card-bg {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(150deg, #e8d5c0 0%, #c8a88a 40%, var(--film) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+  }
+
+  .card-scene {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 65%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+
+  .clapperboard {
+    width: 80px;
+    height: 64px;
+    position: relative;
+  }
+  .clapper-body {
+    width: 80px;
+    height: 52px;
+    background: #1a1612;
+    border-radius: 3px;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .clapper-stripes {
+    display: flex;
+    gap: 4px;
+  }
+  .clapper-stripes span {
+    display: block;
+    width: 3px;
+    height: 24px;
+    background: #fff;
+    border-radius: 1px;
+    opacity: 0.7;
+  }
+  .clapper-stripes span:nth-child(even) { background: var(--accent); }
+  .clapper-top {
+    width: 80px;
+    height: 16px;
+    background: #1a1612;
+    border-radius: 2px 2px 0 0;
+    position: absolute;
+    top: 0;
+    display: flex;
+    overflow: hidden;
+    transform-origin: left center;
+    animation: clap 2.5s ease-in-out infinite;
+  }
+  @keyframes clap {
+    0%, 80%, 100% { transform: rotate(0deg); }
+    30% { transform: rotate(-25deg); }
+    45% { transform: rotate(0deg); }
+  }
+  .clapper-top-stripe {
+    flex: 1;
+    background: repeating-linear-gradient(
+      90deg, #fff 0px, #fff 6px, #1a1612 6px, #1a1612 12px
+    );
+    opacity: 0.5;
+  }
+
+  .card-text-overlay {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+  }
+  .card-text-overlay .label {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 0.4rem;
+  }
+  .card-text-overlay .value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .hero-card-tag {
+    position: absolute;
+    top: 1.2rem; right: 1.2rem;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.75rem;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 6rem 5rem; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--accent);
+    min-width: 28px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 200px;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--warm-white);
+    position: relative;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .stat-block {
+    border-left: 3px solid var(--accent);
+    padding-left: 1.5rem;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.3rem;
+  }
+
+  .about-content p {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.85;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-content p strong { color: var(--ink); font-weight: 500; }
+
+  .interest-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 2rem;
+  }
+
+  .tag {
+    padding: 0.45rem 1rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+  .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--cream); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .project-card {
+    background: var(--warm-white);
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(26,22,18,0.08);
+    z-index: 1;
+  }
+
+  .project-card.featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .project-num {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 4rem;
+    color: var(--border);
+    position: absolute;
+    top: 1.5rem; right: 2rem;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .project-status {
+    display: inline-block;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--accent);
+    padding: 0.25rem 0.7rem;
+    border-radius: 2px;
+    margin-bottom: 1.2rem;
+  }
+  .project-status.upcoming { background: var(--gold); }
+
+  .project-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .project-card p {
+    font-size: 0.93rem;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tech-badge {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 1px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* dashboard preview mockup */
+  .dashboard-mockup {
+    background: #1a1612;
+    border-radius: 6px;
+    overflow: hidden;
+    padding: 1.2rem;
+    box-shadow: 0 20px 60px rgba(26,22,18,0.2);
+  }
+
+  .mock-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .mock-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .mock-dot.r { background: #ff5f57; }
+  .mock-dot.y { background: #febc2e; }
+  .mock-dot.g { background: #28c840; }
+
+  .mock-title {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+    margin-left: auto;
+  }
+
+  .mock-chart-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+  }
+
+  .mock-widget {
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    padding: 0.9rem;
+  }
+
+  .mock-widget-label {
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.6rem;
+  }
+
+  .mock-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 40px;
+  }
+
+  .mock-bar-item {
+    flex: 1;
+    border-radius: 2px 2px 0 0;
+    background: var(--accent);
+    opacity: 0.7;
+    animation: barGrow 1.5s ease-out forwards;
+    transform-origin: bottom;
+  }
+
+  @keyframes barGrow {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+
+  .mock-line {
+    width: 100%;
+    height: 40px;
+    position: relative;
+  }
+  .mock-line svg { width: 100%; height: 100%; }
+
+  .mock-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .mock-number-label {
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .mock-pill-row {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  .mock-pill {
+    font-size: 0.6rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .mock-pill.a { background: rgba(200,85,61,0.4); }
+  .mock-pill.b { background: rgba(212,168,71,0.4); }
+  .mock-pill.c { background: rgba(45,58,46,0.6); }
+
+  /* ── SKILLS ── */
+  #skills {
+    background: var(--film);
+    color: #fff;
+  }
+
+  #skills h2 { color: #fff; }
+  #skills .section-num { color: var(--accent2); }
+  #skills .section-line { background: rgba(255,255,255,0.1); }
+
+  .skills-layout {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .skill-group {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 2rem;
+    transition: background 0.3s;
+  }
+  .skill-group:hover { background: rgba(255,255,255,0.07); }
+
+  .skill-group-icon {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .skill-group h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    margin-bottom: 1.2rem;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: -0.01em;
+  }
+
+  .skill-list { list-style: none; }
+  .skill-list li {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.5);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: color 0.2s;
+  }
+  .skill-list li:last-child { border-bottom: none; }
+  .skill-list li:hover { color: rgba(255,255,255,0.85); }
+  .skill-list li::before {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--warm-white); }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .contact-left p {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--ink);
+    padding: 1.2rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: all 0.25s;
+  }
+  .contact-link:hover {
+    border-color: var(--accent);
+    background: rgba(200,85,61,0.04);
+    transform: translateX(4px);
+  }
+
+  .contact-link-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .contact-link-text { flex: 1; }
+  .contact-link-text .cl-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .contact-link-text .cl-value {
+    font-size: 0.92rem;
+    color: var(--ink);
+    margin-top: 0.15rem;
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+
+  .form-field { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .form-field label {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .form-field input,
+  .form-field textarea {
+    padding: 0.9rem 1.1rem;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.93rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+    resize: none;
+  }
+  .form-field input:focus,
+  .form-field textarea:focus { border-color: var(--accent); }
+
+  .form-field textarea { height: 120px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.35);
+    padding: 2rem 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+
+  footer span { color: var(--accent); }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* stagger children */
+  .stagger > * { transition-delay: calc(var(--i, 0) * 0.08s); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.8rem; }
+    section { padding: 4rem 1.8rem; }
+    #hero { grid-template-columns: 1fr; padding: 7rem 1.8rem 3rem; }
+    .hero-visual { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .about-stats { flex-direction: row; flex-wrap: wrap; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-template-columns: 1fr; }
+    .dashboard-mockup { display: none; }
+    .skills-layout { grid-template-columns: 1fr; }
+    .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">이진미</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="film-strip"></div>
+
+  <div class="hero-text fade-up">
+    <div class="hero-eyebrow">Film & Media · SKKU</div>
+    <h1>Jin<em>mi</em><br>Lee</h1>
+    <p class="hero-name-ko">이진미</p>
+    <p class="hero-desc">
+      Exploring the language of Korean variety shows — humor, editing rhythms, 
+      subtitle design, and cast chemistry — through the lens of AI &amp; data.
+    </p>
+    <div class="cta-group">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-outline">Say Hello</a>
+    </div>
+  </div>
+
+  <div class="hero-visual fade-up" style="transition-delay: 0.2s">
+    <div class="hero-card">
+      <div class="hero-card-bg">
+        <div class="card-scene">
+          <div class="clapperboard">
+            <div class="clapper-top"><div class="clapper-top-stripe"></div></div>
+            <div class="clapper-body">
+              <div class="clapper-stripes">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-text-overlay">
+          <div class="label">Currently studying</div>
+          <div class="value">Film &amp; Media<br>@ SKKU</div>
+        </div>
+      </div>
+      <div class="hero-card-tag">Seoul, KR</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header fade-up">
+    <span class="section-num">01</span>
+    <h2>About Me</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="about-grid stagger">
+    <div class="about-stats fade-up" style="--i:1">
+      <div class="stat-block">
+        <div class="stat-num">SKKU</div>
+        <div class="stat-label">Sungkyunkwan University</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">Film</div>
+        <div class="stat-label">& Media Major</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">AI +</div>
+        <div class="stat-label">Data Visualization</div>
+      </div>
+    </div>
+
+    <div class="about-content fade-up" style="--i:2">
+      <p>
+        I'm a <strong>Film and Media student at Sungkyunkwan University (SKKU)</strong>, 
+        with a deep curiosity for how moving image and sound come together to shape emotion and meaning.
+      </p>
+      <p>
+        My passion lives at a very particular intersection: <strong>Korean variety shows</strong>. 
+        What draws me isn't just the entertainment — it's the craft. The way 
+        <strong>subtitle effects amplify a punchline</strong>, how editing rhythm accelerates tension, 
+        and how cast chemistry creates moments that resonate long after an episode ends.
+      </p>
+      <p>
+        I want to unpack these mechanics using <strong>AI and data visualization</strong> — 
+        building tools that surface the patterns behind what makes audiences laugh, react, and come back.
+      </p>
+
+      <div class="interest-tags">
+        <span class="tag">Korean Variety Shows</span>
+        <span class="tag">Editing Theory</span>
+        <span class="tag">Subtitle Design</span>
+        <span class="tag">Data Storytelling</span>
+        <span class="tag">AI Tools</span>
+        <span class="tag">Audience Research</span>
+        <span class="tag">Cast Chemistry</span>
+        <span class="tag">Media Analysis</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header fade-up">
+    <span class="section-num">02</span>
+    <h2>Projects</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="projects-grid">
+    <!-- Featured project -->
+    <div class="project-card featured fade-up">
+      <div>
+        <div class="project-num">01</div>
+        <span class="project-status">In Progress</span>
+        <h3>Korean Variety Show Trend Dashboard</h3>
+        <p>
+          A creative data visualization dashboard that analyzes the patterns and trends 
+          in Korean variety shows — examining how humor lands, how editing styles evolve across 
+          programs, how subtitle text effects have changed over the years, and how cast 
+          dynamics correlate with viewership and audience sentiment.
+        </p>
+        <p>
+          By combining AI-driven analysis with interactive charts, the project aims to 
+          make the invisible mechanics of variety production visible and explorable.
+        </p>
+        <div class="project-tech">
+          <span class="tech-badge">AI Analysis</span>
+          <span class="tech-badge">Data Viz</span>
+          <span class="tech-badge">NLP</span>
+          <span class="tech-badge">Sentiment</span>
+          <span class="tech-badge">React</span>
+        </div>
+      </div>
+      <!-- Dashboard mockup -->
+      <div class="dashboard-mockup">
+        <div class="mock-bar">
+          <div class="mock-dot r"></div>
+          <div class="mock-dot y"></div>
+          <div class="mock-dot g"></div>
+          <div class="mock-title">KV Trend Dashboard</div>
+        </div>
+        <div class="mock-chart-area">
+          <div class="mock-widget">
+            <div class="mock-widget-label">Laugh Moments / Ep</div>
+            <div class="mock-bars">
+              <div class="mock-bar-item" style="height:55%;animation-delay:0.1s"></div>
+              <div class="mock-bar-item" style="height:80%;animation-delay:0.2s;background:var(--accent2)"></div>
+              <div class="mock-bar-item" style="height:65%;animation-delay:0.3s"></div>
+              <div class="mock-bar-item" style="height:90%;animation-delay:0.4s;background:var(--gold)"></div>
+              <div class="mock-bar-item" style="height:72%;animation-delay:0.5s"></div>
+              <div class="mock-bar-item" style="height:85%;animation-delay:0.6s;background:var(--accent2)"></div>
+            </div>
+          </div>
+          <div class="mock-widget">
+            <div class="mock-widget-label">Audience Sentiment</div>
+            <div class="mock-number">87<span style="font-size:0.8rem;opacity:0.5">%</span></div>
+            <div class="mock-number-label">Positive Reaction</div>
+            <div class="mock-pill-row">
+              <div class="mock-pill a">😂 Funny</div>
+              <div class="mock-pill b">✨ Wholesome</div>
+              <div class="mock-pill c">🎬 Creative</div>
+            </div>
+          </div>
+          <div class="mock-widget" style="grid-column: 1/-1">
+            <div class="mock-widget-label">Subtitle Effect Frequency Over Time</div>
+            <div class="mock-line">
+              <svg viewBox="0 0 220 40" preserveAspectRatio="none">
+                <polyline points="0,35 30,28 55,20 80,24 110,12 140,16 170,8 200,5 220,10"
+                  fill="none" stroke="rgba(200,85,61,0.6)" stroke-width="1.5"/>
+                <polyline points="0,38 30,34 55,32 80,28 110,24 140,20 170,18 200,15 220,18"
+                  fill="none" stroke="rgba(212,168,71,0.4)" stroke-width="1" stroke-dasharray="3,2"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Placeholder card -->
+    <div class="project-card fade-up" style="transition-delay: 0.1s">
+      <div class="project-num">02</div>
+      <span class="project-status upcoming">Upcoming</span>
+      <h3>Cast Chemistry Analyzer</h3>
+      <p>
+        A tool to map interpersonal dynamics between variety show cast members using 
+        dialogue, screen time, and reaction data — visualizing who sparks energy with whom.
+      </p>
+      <div class="project-tech">
+        <span class="tech-badge">Network Graph</span>
+        <span class="tech-badge">NLP</span>
+        <span class="tech-badge">D3.js</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-up" style="transition-delay: 0.2s">
+      <div class="project-num">03</div>
+      <span class="project-status upcoming">Upcoming</span>
+      <h3>Edit Rhythm Visual Score</h3>
+      <p>
+        Visualizing the pacing and cut patterns of variety show episodes as a 
+        "musical score" — revealing how editing tempo creates comedic and dramatic beats.
+      </p>
+      <div class="project-tech">
+        <span class="tech-badge">Video Analysis</span>
+        <span class="tech-badge">Waveform Viz</span>
+        <span class="tech-badge">Python</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header fade-up">
+    <span class="section-num">03</span>
+    <h2>Skills</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="skills-layout stagger">
+    <div class="skill-group fade-up" style="--i:0">
+      <div class="skill-group-icon">🎬</div>
+      <h4>Media & Film Studies</h4>
+      <ul class="skill-list">
+        <li>Film Theory & Criticism</li>
+        <li>Editing & Post-production</li>
+        <li>Subtitle & Caption Design</li>
+        <li>Narrative Structure</li>
+        <li>Variety Show Analysis</li>
+        <li>Audience Studies</li>
+      </ul>
+    </div>
+    <div class="skill-group fade-up" style="--i:1">
+      <div class="skill-group-icon">📊</div>
+      <h4>Data & Visualization</h4>
+      <ul class="skill-list">
+        <li>Data Visualization (D3.js)</li>
+        <li>Sentiment Analysis</li>
+        <li>Dashboard Design</li>
+        <li>Python (Pandas, NumPy)</li>
+        <li>React / JavaScript</li>
+        <li>Figma & UI Prototyping</li>
+      </ul>
+    </div>
+    <div class="skill-group fade-up" style="--i:2">
+      <div class="skill-group-icon">🤖</div>
+      <h4>AI & Research</h4>
+      <ul class="skill-list">
+        <li>NLP & Text Analysis</li>
+        <li>AI-assisted Research</li>
+        <li>Prompt Engineering</li>
+        <li>Media Content Mining</li>
+        <li>Academic Writing</li>
+        <li>Korean & English</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header fade-up">
+    <span class="section-num">04</span>
+    <h2>Get In Touch</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="contact-layout">
+    <div class="contact-left fade-up">
+      <p>
+        I'm always open to conversations about media research, creative data projects, 
+        or anything involving Korean variety shows. Feel free to reach out!
+      </p>
+      <div class="contact-links">
+        <a href="mailto:leezimee62@gmail.com" class="contact-link">
+          <div class="contact-link-icon">✉️</div>
+          <div class="contact-link-text">
+            <div class="cl-label">Email</div>
+            <div class="cl-value">leezimee62@gmail.com</div>
+          </div>
+        </a>
+        <a href="#" class="contact-link">
+          <div class="contact-link-icon">💼</div>
+          <div class="contact-link-text">
+            <div class="cl-label">LinkedIn</div>
+            <div class="cl-value">linkedin.com/in/jinmilee</div>
+          </div>
+        </a>
+        <a href="#" class="contact-link">
+          <div class="contact-link-icon">🐙</div>
+          <div class="contact-link-text">
+            <div class="cl-label">GitHub</div>
+            <div class="cl-value">github.com/jinmiilee</div>
+          </div>
+        </a>
+        <div class="contact-link" style="cursor:default;">
+          <div class="contact-link-icon">📍</div>
+          <div class="contact-link-text">
+            <div class="cl-label">Location</div>
+            <div class="cl-value">Seoul, South Korea</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fade-up" style="transition-delay: 0.15s">
+      <div class="contact-form">
+        <div class="form-field">
+          <label>Your Name</label>
+          <input type="text" placeholder="홍길동">
+        </div>
+        <div class="form-field">
+          <label>Email Address</label>
+          <input type="email" placeholder="hello@example.com">
+        </div>
+        <div class="form-field">
+          <label>Message</label>
+          <textarea placeholder="Tell me what's on your mind..."></textarea>
+        </div>
+        <button class="btn-primary" style="align-self:flex-start; cursor:pointer">Send Message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>© 2025 이진미 · Film & Media, SKKU</div>
+  <div>Made with <span>♥</span> & curiosity</div>
+</footer>
+
+<script>
+  // Scroll-triggered fade-up
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Nav active state
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>
